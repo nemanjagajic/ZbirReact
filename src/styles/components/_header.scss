@@ -1,0 +1,35 @@
+.header {
+	padding-top: 20px;
+	height: 10%;
+}
+
+.header__content {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	padding: $s-size 0;
+}
+
+.header__title {
+	color: white;
+	text-decoration: none;
+	h1 {
+	margin: 0;
+	}
+}
+
+.header__link {
+	color: white;
+	text-decoration: none;
+	font-weight: 300;
+	transition: color 0.2s;
+	&:nth-child(2) {
+		margin-left: 50px;
+	}
+	&:nth-child(3) {
+		margin-left: auto;
+	}
+	&:hover {
+		color: $orange;
+	}
+}

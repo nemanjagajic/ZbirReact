@@ -1,0 +1,19 @@
+.beer-btn {
+    position: static;
+    bottom: 0px;
+    width: 120px;
+    height: 40px;
+    background: $darker-grey;
+    color: $light-grey;
+    border: 1px solid lighten($darker-grey, 15%);
+    border-radius: 7px;
+    outline: none;
+    transition: 0.2s;
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: $s-size;
+    font-weight: 300;
+
+    &:hover {
+        color: $orange;
+    }
+}

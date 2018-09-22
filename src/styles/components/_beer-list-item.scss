@@ -1,0 +1,17 @@
+.beer-list-item {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    font-weight: 300;
+    font-size: $s-size;
+    margin: 10px 20px;
+    padding: 5px 20px;
+    border:  1px solid lighten($dark-grey, 15%);
+    border-radius: 7px;
+    transition: border 0.3s;
+
+    &:hover {
+        border-color: $orange;
+        cursor: pointer;
+    }
+}
