@@ -39,7 +39,6 @@
     display: flex;
     width: 100%;
     justify-content: space-around;
-    margin: auto;
     height: 40px;
     z-index: 1;
 }
@@ -56,4 +55,5 @@
     color: $light-grey;
     font-weight: 300;
     font-family: 'Lato', Arial, sans-serif;
+    margin: 0 10px;
 }

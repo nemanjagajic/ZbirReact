@@ -32,7 +32,7 @@ class BeerList extends React.Component {
                     <h3>On stock</h3>
                     <div className="beer-list__bar">
                         <input name="activeBeersSearch" className="beer-list__search-bar" type="text" placeholder="Search beers" onChange={this.onTextChange} />
-                        <button className="beer-btn">Add to stock</button>
+                        <button className="beer-btn">Put new</button>
                     </div>
                     <div className="beer-list__items" id="scrollbar-style">
                         {

@@ -1,8 +1,7 @@
 .beer-btn {
-    position: static;
-    bottom: 0px;
     width: 120px;
     height: 40px;
+    margin: 0 10px;
     background: $darker-grey;
     color: $light-grey;
     border: 1px solid lighten($darker-grey, 15%);
