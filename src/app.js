@@ -106,5 +106,3 @@ const jsx = (
 
 store.dispatch(setBeers(beers));
 ReactDOM.render(jsx, document.getElementById('app'));
-
-
