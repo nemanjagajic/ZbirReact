@@ -81,11 +81,6 @@ const beers = [
         onStock: false
     },
     {
-        name: 'Ipa',
-        price: 120,
-        onStock: false
-    },
-    {
         name: 'Salto',
         price: 120,
         onStock: false

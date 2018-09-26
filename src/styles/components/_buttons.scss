@@ -16,3 +16,9 @@
         color: $orange;
     }
 }
+
+.beer-btn--modal {
+    @extend .beer-btn;
+    display: block;
+    background: $grey;
+}

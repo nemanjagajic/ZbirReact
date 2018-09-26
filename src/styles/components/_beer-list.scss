@@ -15,6 +15,11 @@
         margin: 5px 0;
         text-align: center;
         font-size: $m-size;
+
+        span {
+            color: $light-grey;
+            font-size: $s-size;
+        }
     }
 }
 
@@ -45,7 +50,6 @@
 
 .beer-list__search-bar {
     width: 60%;
-    font-size: $s-size;
     height: 40px;
     padding: 5px 15px;
     border:  1px solid lighten($dark-grey, 15%);
@@ -55,5 +59,6 @@
     color: $light-grey;
     font-weight: 300;
     font-family: 'Lato', Arial, sans-serif;
+    font-size: $s-size;
     margin: 0 10px;
 }
