@@ -2,34 +2,30 @@ import React from 'react';
 import BeerListItem from './BeerListItem';
 import { connect } from 'react-redux';
 import { setTextFilter } from '../actions/filters';
+import { addBeer } from '../actions/beers';
 import selectBeers from '../selectors/beers';
 import Modal from 'react-modal';
 
 class BeerList extends React.Component {
 
-    state = {
-        activeBeerSearchChanged: false
-    }
-
     constructor() {
         super();
 
         this.state = {
-            modalIsOpen: false
+            activeBeerSearchChanged: false,
+            modalIsOpen: false,
+            addBeerMessage: ''
         };
 
         this.openModal = this.openModal.bind(this);
-        this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
 
     openModal() {
-        this.setState({ modalIsOpen: true });
-    }
-
-    afterOpenModal() {
-        // References are now sync'd and can be accessed
-        this.subtitle.style.color = '#f00';
+        this.setState({
+            modalIsOpen: true,
+            addBeerMessage: ''
+        });
     }
 
     closeModal() {
@@ -49,6 +45,19 @@ class BeerList extends React.Component {
                 document.getElementsByName('activeBeersSearch')[0].value = '';
             }
         }
+    }
+
+    handleAddBeer = (e) => {
+        e.preventDefault();
+        const name = e.target.elements.name.value.trim();
+        const price = e.target.elements.price.value.trim();
+        this.props.addBeer({
+            name,
+            price,
+            onStock: false
+        });
+
+        this.setState(() => ({ addBeerMessage: `Successfully added ${name}` }))
     }
 
     render() {
@@ -99,9 +108,15 @@ class BeerList extends React.Component {
                             contentLabel="Example Modal"
                         >
                             <h3>Add new beer</h3>
-                            <form>
-                                <input name="beer-name" type="text" placeholder="Name" />
-                                <input name="beer-price" type="text" placeholder="Price" />
+                            <form onSubmit={this.handleAddBeer}>
+                                <input name="name" type="text" placeholder="Name" />
+                                <input name="price" type="text" placeholder="Price" />
+                                {
+                                    this.state.addBeerMessage != '' ?
+                                    <div className="modal-message--success">{this.state.addBeerMessage}</div>
+                                    :
+                                    ''
+                                }
                                 <button className="beer-btn--modal">Submit</button>
                             </form>
                         </Modal>
@@ -123,7 +138,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setTextFilter: (text) => dispatch(setTextFilter(text))
+    setTextFilter: (text) => dispatch(setTextFilter(text)),
+    addBeer: (beer) => dispatch(addBeer(beer))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BeerList);
