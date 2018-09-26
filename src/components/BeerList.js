@@ -58,6 +58,9 @@ class BeerList extends React.Component {
         });
 
         this.setState(() => ({ addBeerMessage: `Successfully added ${name}` }))
+        
+        e.target.elements.name.value = '';
+        e.target.elements.price.value = '';
     }
 
     render() {
@@ -113,7 +116,7 @@ class BeerList extends React.Component {
                                 <input name="price" type="text" placeholder="Price" />
                                 {
                                     this.state.addBeerMessage != '' ?
-                                    <div className="modal-message--success">{this.state.addBeerMessage}</div>
+                                    <div className="modal-message--success animated fadeIn">{this.state.addBeerMessage}</div>
                                     :
                                     ''
                                 }
