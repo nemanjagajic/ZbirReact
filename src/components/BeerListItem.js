@@ -47,15 +47,15 @@ class BeerListItem extends React.Component {
                         (
                             <div className="beer-list-item">
                                 <div>{this.props.name}</div>
-                                <div>{this.props.price} din<button onClick={this.handlePutBeerOffStock}>right</button></div>
+                                <div>{this.props.price} din <ion-icon className="animated fadeIn" onClick={this.handlePutBeerOffStock} name="arrow-round-forward"></ion-icon></div>
                             </div>
                         )
                         :
                         // Beer not on stock
                         (
                             <div className="beer-list-item">
-                                <div><button onClick={this.handlePutBeerOnStock}>left</button>{this.props.name}</div>
-                                <div>{this.props.price} din<button onClick={this.openDeleteBeerModal}>delete</button></div>
+                                <div><ion-icon onClick={this.handlePutBeerOnStock} name="arrow-round-back"></ion-icon> {this.props.name}</div>
+                                <div>{this.props.price} din <ion-icon onClick={this.openDeleteBeerModal} name="trash"></ion-icon></div>
                             </div>
                         )
                 }
