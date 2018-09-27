@@ -6,6 +6,8 @@ import { addBeer } from '../actions/beers';
 import selectBeers from '../selectors/beers';
 import Modal from 'react-modal';
 
+const uid = require('uuid/v1');
+
 class BeerList extends React.Component {
 
     constructor() {
@@ -13,23 +15,24 @@ class BeerList extends React.Component {
 
         this.state = {
             activeBeerSearchChanged: false,
-            modalIsOpen: false,
-            addBeerMessage: ''
+            modalAddBeerIsOpen: false,
+            addBeerMessage: '',
+            putBeerMessage: ''
         };
 
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
+        this.openAddBeerModal = this.openAddBeerModal.bind(this);
+        this.closeAddBeerModal = this.closeAddBeerModal.bind(this);
     }
 
-    openModal() {
+    openAddBeerModal() {
         this.setState({
-            modalIsOpen: true,
+            modalAddBeerIsOpen: true,
             addBeerMessage: ''
         });
     }
 
-    closeModal() {
-        this.setState({ modalIsOpen: false });
+    closeAddBeerModal() {
+        this.setState({ modalAddBeerIsOpen: false });
     }
 
     onTextChange = (e) => {
@@ -49,9 +52,11 @@ class BeerList extends React.Component {
 
     handleAddBeer = (e) => {
         e.preventDefault();
+        const id = uid();
         const name = e.target.elements.name.value.trim();
         const price = e.target.elements.price.value.trim();
         this.props.addBeer({
+            id, 
             name,
             price,
             onStock: false
@@ -69,20 +74,20 @@ class BeerList extends React.Component {
 
         const jsxActiveBeers = this.state.activeBeerSearchChanged ?
             selectBeers(activeBeers, this.props.filters).map((beer) => (
-                <BeerListItem {...beer} />
+                <BeerListItem key={beer.id} {...beer} />
             ))
             :
             activeBeers.map((beer) => (
-                <BeerListItem {...beer} />
+                <BeerListItem key={beer.id} {...beer} />
             ))
 
         const jsxInactiveBeers = this.state.activeBeerSearchChanged ?
             inactiveBeers.map((beer) => (
-                <BeerListItem {...beer} />
+                <BeerListItem key={beer.id} {...beer} />
             ))
             :
             selectBeers(inactiveBeers, this.props.filters).map((beer) => (
-                <BeerListItem {...beer} />
+                <BeerListItem key={beer.id} {...beer} />
             ))
 
         return (
@@ -91,7 +96,6 @@ class BeerList extends React.Component {
                     <h3>On stock <span>({jsxActiveBeers.length})</span></h3>
                     <div className="beer-list__bar">
                         <input name="activeBeersSearch" className="beer-list__search-bar" type="text" placeholder="Search beers" onChange={this.onTextChange} />
-                        <button className="beer-btn">Put new</button>
                     </div>
                     <div className="beer-list__items" id="scrollbar-style">
                         {
@@ -103,12 +107,11 @@ class BeerList extends React.Component {
                     <h3>Not on stock <span>({jsxInactiveBeers.length})</span></h3>
                     <div className="beer-list__bar">
                         <input name="inactiveBeersSearch" className="beer-list__search-bar" type="text" placeholder="Search beers" onChange={this.onTextChange} />
-                        <button className="beer-btn" onClick={this.openModal}>Add new</button>
+                        <button className="beer-btn" onClick={this.openAddBeerModal}>Add new</button>
                         <Modal className="modal"
-                            isOpen={this.state.modalIsOpen}
-                            onAfterOpen={this.afterOpenModal}
-                            onRequestClose={this.closeModal}
-                            contentLabel="Example Modal"
+                            isOpen={this.state.modalAddBeerIsOpen}
+                            onRequestClose={this.closeAddBeerModal}
+                            contentLabel="Add beer modal"
                         >
                             <h3>Add new beer</h3>
                             <form onSubmit={this.handleAddBeer}>

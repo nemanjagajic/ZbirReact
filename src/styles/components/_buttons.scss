@@ -22,3 +22,9 @@
     display: block;
     background: $grey;
 }
+
+.beer-btn--dialog {
+    @extend .beer-btn;
+    background: $grey;
+    margin: 30px 10px !important;
+}
