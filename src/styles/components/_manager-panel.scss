@@ -24,6 +24,7 @@
     flex-direction: column;
 }
 
+// Components styles that can be extended
 .manager-component-top {
     width: 96%;
     height: 55%;
@@ -46,4 +47,64 @@
     flex-direction: row;
     border: 1px solid lighten($dark-grey, 10%);
     border-radius: 5px;
+}
+
+.manager-list-item {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    font-weight: 300;
+    font-size: $s-size;
+    margin: 10px 20px;
+    padding: 5px 20px;
+    border:  1px solid lighten($dark-grey, 15%);
+    border-radius: 7px;
+
+    ion-icon {
+        color: $orange;
+        font-size: $m-size;
+        cursor: pointer;
+        transition: 0.4s;
+        opacity: 0; 
+        height: 0;
+        width: 0;
+        overflow: hidden;
+    }
+
+    >div {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &:hover {
+        ion-icon {
+            opacity: 1;
+            height: auto;
+            width: $m-size;
+            margin: 0 10px;
+        }
+    }
+}
+
+.manager-list__bar {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    height: 40px;
+    z-index: 1;
+}
+
+.manager-list__search-bar {
+    width: 60%;
+    height: 40px;
+    padding: 5px 15px;
+    border:  1px solid lighten($dark-grey, 15%);
+    border-radius: 7px;
+    background: lighten($dark-grey, 10%);
+    outline: none;
+    color: $light-grey;
+    font-weight: 300;
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: $s-size;
+    margin: 0 10px;
 }

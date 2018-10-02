@@ -66,8 +66,8 @@ class BeerListItem extends React.Component {
                 >
                     <div className="modal__dialog-header">Are you sure you want to delete {this.props.name}?</div>
                     <div className="modal__dialog-btn-container">
-                        <button className="beer-btn--dialog" onClick={this.handleDeleteBeer}>Yes</button>
-                        <button className="beer-btn--dialog" onClick={this.closeDeleteBeerModal}>No</button>
+                        <button className="btn--dialog" onClick={this.handleDeleteBeer}>Yes</button>
+                        <button className="btn--dialog" onClick={this.closeDeleteBeerModal}>No</button>
                     </div>
                 </Modal>
             </div>

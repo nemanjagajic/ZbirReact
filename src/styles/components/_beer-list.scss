@@ -4,7 +4,7 @@
     h3 {
         color: white;
         font-weight: 300;
-        margin: 5px 0;
+        margin: 10px;
         text-align: center;
         font-size: $m-size;
 
@@ -33,24 +33,9 @@
 }
 
 .beer-list__bar {
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-    height: 40px;
-    z-index: 1;
+    @extend .manager-list__bar;
 }
 
 .beer-list__search-bar {
-    width: 60%;
-    height: 40px;
-    padding: 5px 15px;
-    border:  1px solid lighten($dark-grey, 15%);
-    border-radius: 7px;
-    background: lighten($dark-grey, 10%);
-    outline: none;
-    color: $light-grey;
-    font-weight: 300;
-    font-family: 'Lato', Arial, sans-serif;
-    font-size: $s-size;
-    margin: 0 10px;
+    @extend .manager-list__search-bar;
 }

@@ -2,13 +2,14 @@ import React from 'react';
 import Header from './Header';
 import BeerList from './BeerList';
 import ZbirLogo from './ZbirLogo';
+import UserList from './UserList';
 
 const ManagerPanel = () => (
 	<div className="manager-panel">
 		<Header />
 		<div className="manager-content">
 			<div className="manager-content__left">
-				<div className="user-list"></div>
+				<UserList />
 				<ZbirLogo />
 			</div>
 			<div className="manager-content__right">

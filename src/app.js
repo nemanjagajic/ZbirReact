@@ -7,6 +7,7 @@ import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
 import AppRouter from './routers/AppRouter';
 import { setBeers } from './actions/beers';
+import { setUsers } from './actions/users';
 
 const uid = require('uuid/v1');
 
@@ -109,6 +110,68 @@ const beers = [
         onStock: true
     }
 ];
+const users = [
+    {
+        id: uid(),
+        username: 'nemanjagajic',
+        name: 'Nemanja',
+        lastName: 'Gajic'
+    },
+    {
+        id: uid(),
+        username: 'bosko',
+        name: 'Bozidar',
+        lastName: 'Gajic'
+    },
+    {
+        id: uid(),
+        username: 'janosjoska96',
+        name: 'Jovan',
+        lastName: 'Stupar'
+    },
+    {
+        id: uid(),
+        username: 'raki',
+        name: 'Rastko',
+        lastName: 'Tojagic'
+    },
+    {
+        id: uid(),
+        username: 'zmijica',
+        name: 'Miljan',
+        lastName: 'Samardzic'
+    },
+    {
+        id: uid(),
+        username: 'guster',
+        name: 'Ognjen',
+        lastName: 'Samardzic'
+    },
+    {
+        id: uid(),
+        username: 'tikaspic',
+        name: 'Tihomir',
+        lastName: 'Stojkovic'
+    },
+    {
+        id: uid(),
+        username: 'bodatajson',
+        name: 'Slobodan',
+        lastName: 'Tanasijevic'
+    },
+    {
+        id: uid(),
+        username: 'radosb',
+        name: 'Rados',
+        lastName: 'Bajic'
+    },
+    {
+        id: uid(),
+        username: 'corba',
+        name: 'Stefan',
+        lastName: 'Buzurovic'
+    }
+]
 
 const store = configureStore();
 const jsx = (
@@ -118,4 +181,5 @@ const jsx = (
 );
 
 store.dispatch(setBeers(beers));
+store.dispatch(setUsers(users));
 ReactDOM.render(jsx, document.getElementById('app'));

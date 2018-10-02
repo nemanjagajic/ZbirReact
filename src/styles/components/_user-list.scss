@@ -1,3 +1,31 @@
 .user-list {
     @extend .manager-component-top;
+    flex-direction: column;
+
+    h3 {
+        color: white;
+        font-weight: 300;
+        margin: 10px 0 5px;
+        text-align: center;
+        font-size: $m-size;
+
+        span {
+            color: $light-grey;
+            font-size: $s-size;
+        }
+    }
+}
+
+.user-list__items {
+    overflow-y: scroll;
+    margin: 10px 0;
+    height: 80%;
+}
+
+.user-list__bar {
+    @extend .manager-list__bar;
+}
+
+.user-list__search-bar {
+    @extend .manager-list__search-bar;
 }

@@ -107,7 +107,7 @@ class BeerList extends React.Component {
                     <h3>Not on stock <span>({jsxInactiveBeers.length})</span></h3>
                     <div className="beer-list__bar">
                         <input name="inactiveBeersSearch" className="beer-list__search-bar" type="text" placeholder="Search beers" onChange={this.onTextChange} />
-                        <button className="beer-btn" onClick={this.openAddBeerModal}>Add new</button>
+                        <button className="btn" onClick={this.openAddBeerModal}>Add new</button>
                         <Modal className="modal"
                             isOpen={this.state.modalAddBeerIsOpen}
                             onRequestClose={this.closeAddBeerModal}
@@ -123,7 +123,7 @@ class BeerList extends React.Component {
                                     :
                                     ''
                                 }
-                                <button className="beer-btn--modal">Submit</button>
+                                <button className="btn--modal">Submit</button>
                             </form>
                         </Modal>
                     </div>
