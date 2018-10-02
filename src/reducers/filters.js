@@ -1,12 +1,14 @@
 const filtersReducerDefaultState = {
-    text: ''
+    textBeer: '',
+    textUser: ''
 }
 
 export default (state = filtersReducerDefaultState, action) => {
     switch (action.type) {
-        case 'SET_TEXT_FILTER':
+        case 'SET_BEER_TEXT_FILTER':
             return {
-                text: action.text
+                ...state,
+                textBeer: action.text
             };
         default:
             return state;
