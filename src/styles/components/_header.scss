@@ -1,5 +1,5 @@
 .header {
-	padding-top: 20px;
+	padding-top: 5px;
 	height: 10%;
 }
 
@@ -22,14 +22,17 @@
 	color: white;
 	text-decoration: none;
 	font-weight: 300;
-	transition: color 0.2s;
+	transition: 0.2s;
+	border-bottom: 1px solid lighten($dark-grey, 10%);
+	padding: 0 10px;
 	&:nth-child(2) {
 		margin-left: 50px;
+		border-color: $orange;
 	}
 	&:nth-child(3) {
 		margin-left: auto;
 	}
 	&:hover {
-		color: $orange;
+		border-color: $orange;
 	}
 }

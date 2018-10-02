@@ -1,13 +1,5 @@
 .beer-list {
-    width: 90%;
-    height: 45%;
-    background-color: $dark-grey;
-    margin: 30px auto;
-    color: white;
-    display: flex;
-    flex-direction: row;
-    border: 1px solid lighten($dark-grey, 10%);
-    border-radius: 5px;
+    @extend .manager-component-bottom;
 
     h3 {
         color: white;

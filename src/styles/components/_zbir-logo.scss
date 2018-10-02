@@ -1,9 +1,16 @@
 .zbir-logo {
-    height: 45%;
+    @extend .manager-component-bottom;
+    flex-direction: column;
+    justify-content: space-around;
 
     img {
-        height: 90%;
+        height: 200px;
         display: block;
         margin: auto;
     }
+}
+
+.zbir-logo__date {
+    margin: auto;
+    font-weight: 300;
 }
