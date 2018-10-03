@@ -4,6 +4,9 @@ import UserListItem from './UserListItem';
 import selectUsers from '../selectors/users';
 import { setUserTextFilter } from '../actions/filters';
 import Modal from 'react-modal';
+import { addUser } from '../actions/users';
+
+const uid = require('uuid/v1');
 
 class UserList extends React.Component {
 
@@ -19,14 +22,14 @@ class UserList extends React.Component {
         this.closeAddUserModal = this.closeAddUserModal.bind(this);
     }
 
-    openAddUserModal() {
+    openAddUserModal = () => {
         this.setState({
             modalAddUserIsOpen: true,
             addUserMessage: ''
         });
     }
 
-    closeAddUserModal() {
+    closeAddUserModal = () => {
         this.setState({ modalAddUserIsOpen: false });
     }
 
@@ -34,8 +37,28 @@ class UserList extends React.Component {
         this.props.setUserTextFilter(e.target.value);
     }
 
+    handleAddUser = (e) => {
+        e.preventDefault();
+        const id = uid();
+        const username = e.target.elements.username.value.trim();
+        const name = e.target.elements.name.value.trim();
+        const lastName = e.target.elements.lastName.value.trim();
+        this.props.addUser({
+            id, 
+            username,
+            name,
+            lastName
+        });
+
+        this.setState(() => ({ addUserMessage: `Successfully added ${username}` }))
+        
+        e.target.elements.username.value = '';
+        e.target.elements.name.value = '';
+        e.target.elements.lastName.value = '';
+    }
+
     render() {
-        const jsxUsers = selectUsers(this.props.users, this.props.filters).map((user) => <UserListItem key={user.id} user={user}></UserListItem>);
+        const jsxUsers = selectUsers(this.props.users, this.props.filters).map((user) => <UserListItem key={user.id} {...user}></UserListItem>);
 
         return (
             <div className="user-list">
@@ -50,8 +73,9 @@ class UserList extends React.Component {
                     >
                         <h3>Add new user</h3>
                         <form onSubmit={this.handleAddUser}>
+                            <input name="username" type="text" placeholder="Username" />
                             <input name="name" type="text" placeholder="Name" />
-                            <input name="price" type="text" placeholder="Price" />
+                            <input name="lastName" type="text" placeholder="Last name" />
                             {
                                 this.state.addUserMessage != '' ?
                                     <div className="modal-message--success animated fadeIn">{this.state.addUserMessage}</div>
@@ -76,7 +100,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setUserTextFilter: (text) => dispatch(setUserTextFilter(text))
+    setUserTextFilter: (text) => dispatch(setUserTextFilter(text)),
+    addUser: (user) => dispatch(addUser(user))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);

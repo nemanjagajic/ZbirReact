@@ -23,14 +23,14 @@ class BeerList extends React.Component {
         this.closeAddBeerModal = this.closeAddBeerModal.bind(this);
     }
 
-    openAddBeerModal() {
+    openAddBeerModal = () => {
         this.setState({
             modalAddBeerIsOpen: true,
             addBeerMessage: ''
         });
     }
 
-    closeAddBeerModal() {
+    closeAddBeerModal = () => {
         this.setState({ modalAddBeerIsOpen: false });
     }
 

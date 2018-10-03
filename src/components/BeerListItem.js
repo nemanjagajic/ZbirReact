@@ -16,13 +16,13 @@ class BeerListItem extends React.Component {
         this.closeDeleteBeerModal = this.closeDeleteBeerModal.bind(this);
     }
 
-    openDeleteBeerModal() {
+    openDeleteBeerModal = () => {
         this.setState({
             modalDeleteBeerIsOpen: true,
         });
     }
 
-    closeDeleteBeerModal() {
+    closeDeleteBeerModal = () => {
         this.setState({ modalDeleteBeerIsOpen: false });
     }
 
@@ -62,7 +62,7 @@ class BeerListItem extends React.Component {
                 <Modal className="modal"
                     isOpen={this.state.modalDeleteBeerIsOpen}
                     onRequestClose={this.closeDeleteBeerModal}
-                    contentLabel="Add beer modal"
+                    contentLabel="Delete beer modal"
                 >
                     <div className="modal__dialog-header">Are you sure you want to delete {this.props.name}?</div>
                     <div className="modal__dialog-btn-container">
