@@ -1,7 +1,7 @@
 import React from 'react';
 import BeerListItem from './BeerListItem';
 import { connect } from 'react-redux';
-import { setTextFilter } from '../actions/filters';
+import { setBeerTextFilter } from '../actions/filters';
 import { addBeer } from '../actions/beers';
 import selectBeers from '../selectors/beers';
 import Modal from 'react-modal';
@@ -16,8 +16,7 @@ class BeerList extends React.Component {
         this.state = {
             activeBeerSearchChanged: false,
             modalAddBeerIsOpen: false,
-            addBeerMessage: '',
-            putBeerMessage: ''
+            addBeerMessage: ''
         };
 
         this.openAddBeerModal = this.openAddBeerModal.bind(this);
@@ -36,7 +35,7 @@ class BeerList extends React.Component {
     }
 
     onTextChange = (e) => {
-        this.props.setTextFilter(e.target.value);
+        this.props.setBeerTextFilter(e.target.value);
         if (e.target.name === 'activeBeersSearch') {
             this.setState(() => ({ activeBeerSearchChanged: true }));
             if (document.getElementsByName('inactiveBeersSearch')[0].value !== '') {
@@ -144,7 +143,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setTextFilter: (text) => dispatch(setTextFilter(text)),
+    setBeerTextFilter: (text) => dispatch(setBeerTextFilter(text)),
     addBeer: (beer) => dispatch(addBeer(beer))
 });
 

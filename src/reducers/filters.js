@@ -10,6 +10,11 @@ export default (state = filtersReducerDefaultState, action) => {
                 ...state,
                 textBeer: action.text
             };
+        case 'SET_USER_TEXT_FILTER':
+            return {
+                ...state,
+                textUser: action.text
+            };
         default:
             return state;
     }
