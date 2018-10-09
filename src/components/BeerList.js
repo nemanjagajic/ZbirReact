@@ -23,8 +23,6 @@ class BeerList extends React.Component {
     }
 
     componentDidMount() {
-        const proxy = "https://crossorigin.me/";
-
         axios.get(`http://localhost:8000/api/beers`).then((response) => {
             this.props.setBeers(response.data);
         }).catch((e) => {
@@ -131,9 +129,9 @@ class BeerList extends React.Component {
                                 {
                                     this.state.addBeerMessage != '' ?
                                         (this.state.addBeerMessage.startsWith('Successfully added') ?
-                                        <div className="modal-message--success animated fadeIn">{this.state.addBeerMessage}</div>
-                                        :
-                                        <div className="modal-message--error animated fadeIn">{this.state.addBeerMessage}</div>)
+                                            <div className="modal-message--success animated fadeIn">{this.state.addBeerMessage}</div>
+                                            :
+                                            <div className="modal-message--error animated fadeIn">{this.state.addBeerMessage}</div>)
                                         :
                                         ''
                                 }

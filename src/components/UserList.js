@@ -4,7 +4,8 @@ import UserListItem from './UserListItem';
 import selectUsers from '../selectors/users';
 import { setUserTextFilter } from '../actions/filters';
 import Modal from 'react-modal';
-import { addUser } from '../actions/users';
+import { addUser, setUsers } from '../actions/users';
+import axios from 'axios';
 
 const uid = require('uuid/v1');
 
@@ -20,6 +21,14 @@ class UserList extends React.Component {
 
         this.openAddUserModal = this.openAddUserModal.bind(this);
         this.closeAddUserModal = this.closeAddUserModal.bind(this);
+    }
+
+    componentDidMount() {
+        axios.get(`http://localhost:8000/api/customers`).then((response) => {
+            this.props.setUsers(response.data);
+        }).catch((e) => {
+            console.log(e);
+        });
     }
 
     openAddUserModal = () => {
@@ -39,19 +48,23 @@ class UserList extends React.Component {
 
     handleAddUser = (e) => {
         e.preventDefault();
-        const id = uid();
         const username = e.target.elements.username.value.trim();
         const name = e.target.elements.name.value.trim();
         const lastName = e.target.elements.lastName.value.trim();
-        this.props.addUser({
-            id, 
+        const user = {
             username,
             name,
             lastName
+        };
+
+        axios.post('http://localhost:8000/api/customers', user).then((response) => {
+            this.setState(() => ({ addUserMessage: `Successfully added ${username}` }));
+            this.props.addUser(response.data);
+        }).catch((e) => {
+            this.setState(() => ({ addUserMessage: `Error occurred, ${name} not added` }));
+            console.log(e);
         });
 
-        this.setState(() => ({ addUserMessage: `Successfully added ${username}` }))
-        
         e.target.elements.username.value = '';
         e.target.elements.name.value = '';
         e.target.elements.lastName.value = '';
@@ -78,7 +91,10 @@ class UserList extends React.Component {
                             <input name="lastName" type="text" placeholder="Last name" />
                             {
                                 this.state.addUserMessage != '' ?
-                                    <div className="modal-message--success animated fadeIn">{this.state.addUserMessage}</div>
+                                    (this.state.addUserMessage.startsWith('Successfully added') ?
+                                        <div className="modal-message--success animated fadeIn">{this.state.addUserMessage}</div>
+                                        :
+                                        <div className="modal-message--error animated fadeIn">{this.state.addUserMessage}</div>)
                                     :
                                     ''
                             }
@@ -101,7 +117,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setUserTextFilter: (text) => dispatch(setUserTextFilter(text)),
-    addUser: (user) => dispatch(addUser(user))
+    addUser: (user) => dispatch(addUser(user)),
+    setUsers: (users) => dispatch(setUsers(users))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);

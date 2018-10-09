@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import { deleteUser } from '../actions/users';
+import axios from 'axios';
 
 class UserListItem extends React.Component {
 
@@ -27,7 +28,13 @@ class UserListItem extends React.Component {
     }
 
     handleDeleteUser = () => {
-        this.props.deleteUser(this.props.id);
+        const id = this.props.id;
+
+        axios.delete(`http://localhost:8000/api/customers/${id}`).then((response) => {
+            this.props.deleteUser(this.props.id);
+        }).catch((e) => {
+            console.log(e);
+        });
     }
 
     render() {
