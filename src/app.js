@@ -6,7 +6,6 @@ import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
 import AppRouter from './routers/AppRouter';
-import { setBeers } from './actions/beers';
 import { setUsers } from './actions/users';
 
 const uid = require('uuid/v1');
@@ -180,6 +179,5 @@ const jsx = (
     </Provider>
 );
 
-store.dispatch(setBeers(beers));
 store.dispatch(setUsers(users));
 ReactDOM.render(jsx, document.getElementById('app'));

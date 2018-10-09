@@ -75,3 +75,8 @@
     font-size: $modal-message-size;
     color: $light-grey;
 }
+
+.modal-message--error {
+    @extend .modal-message--success;
+    background-color: #EF5350;
+}

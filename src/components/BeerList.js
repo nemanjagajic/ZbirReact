@@ -2,11 +2,10 @@ import React from 'react';
 import BeerListItem from './BeerListItem';
 import { connect } from 'react-redux';
 import { setBeerTextFilter } from '../actions/filters';
-import { addBeer } from '../actions/beers';
+import { addBeer, setBeers } from '../actions/beers';
 import selectBeers from '../selectors/beers';
 import Modal from 'react-modal';
-
-const uid = require('uuid/v1');
+import axios from 'axios';
 
 class BeerList extends React.Component {
 
@@ -21,6 +20,16 @@ class BeerList extends React.Component {
 
         this.openAddBeerModal = this.openAddBeerModal.bind(this);
         this.closeAddBeerModal = this.closeAddBeerModal.bind(this);
+    }
+
+    componentDidMount() {
+        const proxy = "https://crossorigin.me/";
+
+        axios.get(`http://localhost:8000/api/beers`).then((response) => {
+            this.props.setBeers(response.data);
+        }).catch((e) => {
+            console.log(e);
+        });
     }
 
     openAddBeerModal = () => {
@@ -51,18 +60,21 @@ class BeerList extends React.Component {
 
     handleAddBeer = (e) => {
         e.preventDefault();
-        const id = uid();
         const name = e.target.elements.name.value.trim();
         const price = e.target.elements.price.value.trim();
-        this.props.addBeer({
-            id, 
+        let beer = {
             name,
-            price,
-            onStock: false
+            price
+        }
+
+        axios.post('http://localhost:8000/api/beers', beer).then((response) => {
+            this.setState(() => ({ addBeerMessage: `Successfully added ${name}` }));
+            this.props.addBeer(response.data);
+        }).catch((e) => {
+            this.setState(() => ({ addBeerMessage: `Error occurred, ${name} not added` }));
+            console.log(e);
         });
 
-        this.setState(() => ({ addBeerMessage: `Successfully added ${name}` }))
-        
         e.target.elements.name.value = '';
         e.target.elements.price.value = '';
     }
@@ -115,12 +127,15 @@ class BeerList extends React.Component {
                             <h3>Add new beer</h3>
                             <form onSubmit={this.handleAddBeer}>
                                 <input name="name" type="text" placeholder="Name" />
-                                <input name="price" type="text" placeholder="Price" />
+                                <input name="price" type="text" placeholder="Price" pattern="^[0-9]*$" title="Price must be a number" />
                                 {
                                     this.state.addBeerMessage != '' ?
-                                    <div className="modal-message--success animated fadeIn">{this.state.addBeerMessage}</div>
-                                    :
-                                    ''
+                                        (this.state.addBeerMessage.startsWith('Successfully added') ?
+                                        <div className="modal-message--success animated fadeIn">{this.state.addBeerMessage}</div>
+                                        :
+                                        <div className="modal-message--error animated fadeIn">{this.state.addBeerMessage}</div>)
+                                        :
+                                        ''
                                 }
                                 <button className="btn--modal">Submit</button>
                             </form>
@@ -144,7 +159,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setBeerTextFilter: (text) => dispatch(setBeerTextFilter(text)),
-    addBeer: (beer) => dispatch(addBeer(beer))
+    addBeer: (beer) => dispatch(addBeer(beer)),
+    setBeers: (beers) => dispatch(setBeers(beers))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BeerList);

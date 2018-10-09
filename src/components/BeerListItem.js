@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deleteBeer, putBeerOnStock, putBeerOffStock } from '../actions/beers';
+import { deleteBeer, putBeerOnStock, putBeerOffStock, setBeers } from '../actions/beers';
 import Modal from 'react-modal';
+import axios from 'axios';
 
 class BeerListItem extends React.Component {
 
@@ -15,7 +16,7 @@ class BeerListItem extends React.Component {
         this.openDeleteBeerModal = this.openDeleteBeerModal.bind(this);
         this.closeDeleteBeerModal = this.closeDeleteBeerModal.bind(this);
     }
-
+    
     openDeleteBeerModal = () => {
         this.setState({
             modalDeleteBeerIsOpen: true,
@@ -27,15 +28,35 @@ class BeerListItem extends React.Component {
     }
 
     handleDeleteBeer = () => {
-        this.props.deleteBeer(this.props.id);
+        const id = this.props.id;
+
+        axios.delete(`http://localhost:8000/api/beers/${id}`).then((response) => {
+            this.props.deleteBeer(id);
+        }).catch((e) => {
+            console.log(e);
+        });
     }
 
     handlePutBeerOnStock = () => {
-        this.props.putBeerOnStock(this.props.id);
+        const id = this.props.id;
+        const request = { onStock: true };
+
+        axios.put(`http://localhost:8000/api/beers/${id}`, request).then((response) => {
+            this.props.putBeerOnStock(id);
+        }).catch((e) => {
+            console.log(e);
+        });
     }
 
     handlePutBeerOffStock = () => {
-        this.props.putBeerOffStock(this.props.id);
+        const id = this.props.id;
+        const request = { onStock: false };
+
+        axios.put(`http://localhost:8000/api/beers/${id}`, request).then((response) => {
+            this.props.putBeerOffStock(id);
+        }).catch((e) => {
+            console.log(e);
+        });
     }
 
     render() {

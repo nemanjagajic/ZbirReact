@@ -6,9 +6,6 @@ const Header = () => (
 		<div className="content-container">
 			<div className="header__content">
 				<Link className="header__link" to="/">
-					Profile
-				</Link>
-				<Link className="header__link" to="/">
 					Manager panel
 				</Link>
 				<Link className="header__link" to="/">
