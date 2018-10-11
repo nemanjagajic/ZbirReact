@@ -30,7 +30,7 @@ class BeerListItem extends React.Component {
     handleDeleteBeer = () => {
         const id = this.props.id;
 
-        axios.delete(`http://localhost:8000/api/beers/${id}`).then((response) => {
+        axios.delete(`http://localhost:8000/api/beers/${id}`).then(() => {
             this.props.deleteBeer(id);
         }).catch((e) => {
             console.log(e);
@@ -41,7 +41,7 @@ class BeerListItem extends React.Component {
         const id = this.props.id;
         const request = { onStock: true };
 
-        axios.put(`http://localhost:8000/api/beers/${id}`, request).then((response) => {
+        axios.put(`http://localhost:8000/api/beers/${id}`, request).then(() => {
             this.props.putBeerOnStock(id);
         }).catch((e) => {
             console.log(e);
@@ -52,7 +52,7 @@ class BeerListItem extends React.Component {
         const id = this.props.id;
         const request = { onStock: false };
 
-        axios.put(`http://localhost:8000/api/beers/${id}`, request).then((response) => {
+        axios.put(`http://localhost:8000/api/beers/${id}`, request).then(() => {
             this.props.putBeerOffStock(id);
         }).catch((e) => {
             console.log(e);

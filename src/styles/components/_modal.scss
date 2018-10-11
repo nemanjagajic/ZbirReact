@@ -28,9 +28,66 @@
         }
     }
 
+    .count-input {
+        width: 120px;
+        display: block;
+        margin: auto;
+    }
+
     button {
         margin: 30px auto;
         border: 1px solid darken(grey, 10%);
+    }
+
+    // Dropdown
+    .css-10nd86i {
+        width: 100%;
+        font-size: $s-size;
+        margin: 0px auto 30px;
+        font-weight: 300;
+        font-family: 'Lato', Arial, sans-serif;
+
+        .css-1oubc3t {
+            background: $grey !important;
+            border: 1px solid $modal-grey;
+            border-radius: 5px;
+        }
+
+        .css-143htmq {
+            background: $grey !important;
+            border-radius: 5px;
+        }
+
+        .css-xp4uvy {
+            color: white;
+        }
+
+        .css-1ieshug {
+            background: $grey !important;
+            color: white;
+        }
+
+        .css-19qxxs {
+            background: $grey !important;
+            color: white;
+
+            .css-11unzgr {
+                >div {
+                    border: 1px solid $grey;
+                    border-radius: 5px;
+                    margin: 5px auto;
+                    width: 90%;
+                    transition: 0.2s;
+                    &:hover {
+                        cursor: pointer;
+                        border: 1px solid $modal-grey;
+                    }
+                    &:active {
+                        background: $modal-grey;
+                    }
+                }
+            }
+        }
     }
 }
 
