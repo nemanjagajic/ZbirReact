@@ -3,7 +3,8 @@ import axios from 'axios';
 
 const OrderListItem = ({ username, beerName, count }) => (
     <div className="order-list-item">
-        {`${username} ${beerName} ${count}`}
+        <div>{username}</div>
+        <div>{beerName} <span>x {count}</span></div>
     </div>
 );
 

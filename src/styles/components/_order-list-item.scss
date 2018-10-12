@@ -1,3 +1,7 @@
 .order-list-item {
     @extend .manager-list-item;
+    span {
+        margin-left: 5px;
+        color: #8c8c8c;
+    }
 }

@@ -1,7 +1,7 @@
 export default (state = [], action) => {
     switch (action.type) {
         case 'ADD_USER':
-            return [...state, action.user];
+            return [action.user, ...state];
         case 'DELETE_USER':
             return state.filter((user) => user.id !== action.id);
         case 'SET_USERS':

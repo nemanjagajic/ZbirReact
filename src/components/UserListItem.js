@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { deleteUser } from '../actions/users';
 import axios from 'axios';
 import Select from 'react-select';
+import { addOrder } from '../actions/orders';
 
 class UserListItem extends React.Component {
 
@@ -81,16 +82,16 @@ class UserListItem extends React.Component {
             count
         };
 
-        axios.post("http://localhost:8000/api/orders/addOrder", request).then(() => {
+        axios.post("http://localhost:8000/api/orders/addOrder", request).then((response) => {
             this.setState(() => ({ addOrderMessage: `Successfully ordered ${beerName} x ${count}` }));
-            // TODO dispatch order
+            this.props.addOrder(response.data);
         }).catch((e) => {
             this.setState(() => ({ addOrderMessage: `Error occurred, order not made` }));
             console.log(e);
         });
 
         this.setState({ selectedOption: null });
-        e.target.elements.orderBeerCount.value = '';    
+        e.target.elements.orderBeerCount.value = 1;    
     }
 
     render() {
@@ -173,7 +174,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    deleteUser: (id) => dispatch(deleteUser(id))
+    deleteUser: (id) => dispatch(deleteUser(id)),
+    addOrder: (order) => dispatch(addOrder(order))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListItem);
