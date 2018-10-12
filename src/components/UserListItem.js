@@ -82,13 +82,14 @@ class UserListItem extends React.Component {
         };
 
         axios.post("http://localhost:8000/api/orders/addOrder", request).then(() => {
-            this.setState(() => ({ addOrderMessage: `Successfully ordered ${beerName}(${count})` }));
+            this.setState(() => ({ addOrderMessage: `Successfully ordered ${beerName} x ${count}` }));
+            // TODO dispatch order
         }).catch((e) => {
             this.setState(() => ({ addOrderMessage: `Error occurred, order not made` }));
             console.log(e);
         });
 
-        this.setState({ selectedOption: null });    
+        this.setState({ selectedOption: null });
         e.target.elements.orderBeerCount.value = '';    
     }
 

@@ -3,6 +3,7 @@ import Header from './Header';
 import BeerList from './BeerList';
 import ZbirLogo from './ZbirLogo';
 import UserList from './UserList';
+import OrderList from './OrderList';
 
 const ManagerPanel = () => (
 	<div className="manager-panel">
@@ -13,7 +14,7 @@ const ManagerPanel = () => (
 				<ZbirLogo />
 			</div>
 			<div className="manager-content__right">
-				<div className="statistics"></div>
+				<OrderList />
 				<BeerList />
 			</div>
 		</div>
