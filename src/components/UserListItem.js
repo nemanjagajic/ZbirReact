@@ -1,10 +1,10 @@
 import React from 'react';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
-import { deleteUser } from '../actions/users';
+import { setUsers } from '../actions/users';
 import axios from 'axios';
 import Select from 'react-select';
-import { addOrder } from '../actions/orders';
+import { setOrders } from '../actions/orders';
 
 class UserListItem extends React.Component {
 
@@ -41,7 +41,7 @@ class UserListItem extends React.Component {
     }
 
     closeMakeOrderModal = () => {
-        this.setState({ 
+        this.setState({
             modalMakeOrderIsOpen: false,
             selectedOption: null,
             addOrderMessage: ''
@@ -56,7 +56,16 @@ class UserListItem extends React.Component {
         const id = this.props.id;
 
         axios.delete(`http://localhost:8000/api/customers/${id}`).then(() => {
-            this.props.deleteUser(this.props.id);
+            axios.get(`http://localhost:8000/api/customers`).then((response) => {
+                this.props.setUsers(response.data);
+            }).catch((e) => {
+                console.log(e);
+            });
+            axios.get(`http://localhost:8000/api/ordersPrintable?page=$1&showPerPage=5`).then((response) => {
+                this.props.setOrders(response.data.orders);
+            }).catch((e) => {
+                console.log(e);
+            });
         }).catch((e) => {
             console.log(e);
         });
@@ -84,14 +93,18 @@ class UserListItem extends React.Component {
 
         axios.post("http://localhost:8000/api/orders/addOrder", request).then((response) => {
             this.setState(() => ({ addOrderMessage: `Successfully ordered ${beerName} x ${count}` }));
-            this.props.addOrder(response.data);
+            axios.get(`http://localhost:8000/api/ordersPrintable?page=$1&showPerPage=5`).then((response) => {
+                this.props.setOrders(response.data.orders);
+            }).catch((e) => {
+                console.log(e);
+            });
         }).catch((e) => {
             this.setState(() => ({ addOrderMessage: `Error occurred, order not made` }));
             console.log(e);
         });
 
         this.setState({ selectedOption: null });
-        e.target.elements.orderBeerCount.value = 1;    
+        e.target.elements.orderBeerCount.value = 1;
     }
 
     render() {
@@ -174,8 +187,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    deleteUser: (id) => dispatch(deleteUser(id)),
-    addOrder: (order) => dispatch(addOrder(order))
+    setOrders: (orders) => dispatch(setOrders(orders)),
+    setUsers: (users) => dispatch(setUsers(users))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListItem);

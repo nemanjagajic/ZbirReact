@@ -12,6 +12,7 @@ class OrderList extends React.Component {
             ordersQuery: {
                 'page': 1,
                 'showPerPage': 5,
+                'currentPage': 1,
                 'previous': false,
                 'next': false
             }
@@ -26,11 +27,14 @@ class OrderList extends React.Component {
             this.props.setOrders(response.data.orders);
             const previous = response.data.previous;
             const next = response.data.next;
+            const currentPage = response.data.currentPage;
+
             this.setState(() => ({
                 ordersQuery: {
                     ...this.state.ordersQuery,
                     previous,
-                    next
+                    next,
+                    currentPage
                 }
             }));
         }).catch((e) => {
@@ -43,13 +47,15 @@ class OrderList extends React.Component {
             this.props.setOrders(response.data.orders);
             const previous = response.data.previous;
             const next = response.data.next;
+            const currentPage = response.data.currentPage;
 
             this.setState((prevState) => ({
                 ordersQuery: {
                     ...prevState.ordersQuery,
                     page: prevState.ordersQuery.page - 1,
                     previous,
-                    next
+                    next,
+                    currentPage
                 }
             }));
         }).catch((e) => {
@@ -62,13 +68,15 @@ class OrderList extends React.Component {
             this.props.setOrders(response.data.orders);
             const previous = response.data.previous;
             const next = response.data.next;
+            const currentPage = response.data.currentPage;
 
             this.setState((prevState) => ({
                 ordersQuery: {
                     ...prevState.ordersQuery,
                     page: prevState.ordersQuery.page + 1,
                     previous,
-                    next
+                    next,
+                    currentPage
                 }
             }));
         }).catch((e) => {
@@ -90,7 +98,7 @@ class OrderList extends React.Component {
                                 <button className="btn--pagination--disabled"><ion-icon name="arrow-round-back"></ion-icon></button>
                         }
                         <div className="order-list__page-indicator">
-                            {this.state.ordersQuery.page}
+                            {this.state.ordersQuery.currentPage}
                         </div>
                         {
                             this.state.ordersQuery.next ?

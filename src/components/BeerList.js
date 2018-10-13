@@ -2,7 +2,7 @@ import React from 'react';
 import BeerListItem from './BeerListItem';
 import { connect } from 'react-redux';
 import { setBeerTextFilter } from '../actions/filters';
-import { addBeer, setBeers } from '../actions/beers';
+import { setBeers } from '../actions/beers';
 import selectBeers from '../selectors/beers';
 import Modal from 'react-modal';
 import axios from 'axios';
@@ -65,9 +65,13 @@ class BeerList extends React.Component {
             price
         }
 
-        axios.post('http://localhost:8000/api/beers', beer).then((response) => {
+        axios.post('http://localhost:8000/api/beers', beer).then(() => {
             this.setState(() => ({ addBeerMessage: `Successfully added ${name}` }));
-            this.props.addBeer(response.data);
+            axios.get('http://localhost:8000/api/beers').then((response) => {
+                this.props.setBeers(response.data);
+            }).catch((e) => {
+                console.log(e);
+            });
         }).catch((e) => {
             this.setState(() => ({ addBeerMessage: `Error occurred, ${name} not added` }));
             console.log(e);
@@ -157,7 +161,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setBeerTextFilter: (text) => dispatch(setBeerTextFilter(text)),
-    addBeer: (beer) => dispatch(addBeer(beer)),
     setBeers: (beers) => dispatch(setBeers(beers))
 });
 

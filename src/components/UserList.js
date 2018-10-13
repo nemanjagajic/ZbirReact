@@ -4,7 +4,7 @@ import UserListItem from './UserListItem';
 import selectUsers from '../selectors/users';
 import { setUserTextFilter } from '../actions/filters';
 import Modal from 'react-modal';
-import { addUser, setUsers } from '../actions/users';
+import { setUsers } from '../actions/users';
 import axios from 'axios';
 
 const uid = require('uuid/v1');
@@ -59,7 +59,11 @@ class UserList extends React.Component {
 
         axios.post('http://localhost:8000/api/customers', user).then((response) => {
             this.setState(() => ({ addUserMessage: `Successfully added ${username}` }));
-            this.props.addUser(response.data);
+            axios.get(`http://localhost:8000/api/customers`).then((response) => {
+                this.props.setUsers(response.data);
+            }).catch((e) => {
+                console.log(e);
+            });
         }).catch((e) => {
             this.setState(() => ({ addUserMessage: `Error occurred, ${name} not added` }));
             console.log(e);
@@ -117,7 +121,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setUserTextFilter: (text) => dispatch(setUserTextFilter(text)),
-    addUser: (user) => dispatch(addUser(user)),
     setUsers: (users) => dispatch(setUsers(users))
 });
 

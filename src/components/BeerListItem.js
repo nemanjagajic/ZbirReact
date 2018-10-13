@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deleteBeer, putBeerOnStock, putBeerOffStock, setBeers } from '../actions/beers';
+import { setBeers } from '../actions/beers';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { setOrders } from '../actions/orders';
 
 class BeerListItem extends React.Component {
 
@@ -16,7 +17,7 @@ class BeerListItem extends React.Component {
         this.openDeleteBeerModal = this.openDeleteBeerModal.bind(this);
         this.closeDeleteBeerModal = this.closeDeleteBeerModal.bind(this);
     }
-    
+
     openDeleteBeerModal = () => {
         this.setState({
             modalDeleteBeerIsOpen: true,
@@ -31,7 +32,16 @@ class BeerListItem extends React.Component {
         const id = this.props.id;
 
         axios.delete(`http://localhost:8000/api/beers/${id}`).then(() => {
-            this.props.deleteBeer(id);
+            axios.get('http://localhost:8000/api/beers').then((response) => {
+                this.props.setBeers(response.data);
+            }).catch((e) => {
+                console.log(e);
+            });
+            axios.get(`http://localhost:8000/api/ordersPrintable?page=$1&showPerPage=5`).then((response) => {
+                this.props.setOrders(response.data.orders);
+            }).catch((e) => {
+                console.log(e);
+            });
         }).catch((e) => {
             console.log(e);
         });
@@ -42,7 +52,11 @@ class BeerListItem extends React.Component {
         const request = { onStock: true };
 
         axios.put(`http://localhost:8000/api/beers/${id}`, request).then(() => {
-            this.props.putBeerOnStock(id);
+            axios.get('http://localhost:8000/api/beers').then((response) => {
+                this.props.setBeers(response.data);
+            }).catch((e) => {
+                console.log(e);
+            });
         }).catch((e) => {
             console.log(e);
         });
@@ -53,7 +67,11 @@ class BeerListItem extends React.Component {
         const request = { onStock: false };
 
         axios.put(`http://localhost:8000/api/beers/${id}`, request).then(() => {
-            this.props.putBeerOffStock(id);
+            axios.get('http://localhost:8000/api/beers').then((response) => {
+                this.props.setBeers(response.data);
+            }).catch((e) => {
+                console.log(e);
+            });
         }).catch((e) => {
             console.log(e);
         });
@@ -97,9 +115,8 @@ class BeerListItem extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    deleteBeer: (id) => dispatch(deleteBeer(id)),
-    putBeerOnStock: (id) => dispatch(putBeerOnStock(id)),
-    putBeerOffStock: (id) => dispatch(putBeerOffStock(id))
+    setBeers: (beers) => dispatch(setBeers(beers)),
+    setOrders: (orders) => dispatch(setOrders(orders))
 });
 
 export default connect(undefined, mapDispatchToProps)(BeerListItem);
