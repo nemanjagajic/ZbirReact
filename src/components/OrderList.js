@@ -10,7 +10,6 @@ class OrderList extends React.Component {
 
         this.state = {
             ordersQuery: {
-                'page': 1,
                 'showPerPage': 5,
                 'currentPage': 1,
                 'previous': false,
@@ -23,7 +22,7 @@ class OrderList extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8000/api/ordersPrintable?page=${this.state.ordersQuery.page}&showPerPage=${this.state.ordersQuery.showPerPage}`).then((response) => {
+        axios.get(`http://localhost:8000/api/ordersPrintable?page=${this.currentPage}&showPerPage=${this.state.ordersQuery.showPerPage}`).then((response) => {
             this.props.setOrders(response.data.orders);
             const previous = response.data.previous;
             const next = response.data.next;
@@ -52,7 +51,6 @@ class OrderList extends React.Component {
             this.setState((prevState) => ({
                 ordersQuery: {
                     ...prevState.ordersQuery,
-                    page: prevState.ordersQuery.page - 1,
                     previous,
                     next,
                     currentPage
@@ -73,7 +71,6 @@ class OrderList extends React.Component {
             this.setState((prevState) => ({
                 ordersQuery: {
                     ...prevState.ordersQuery,
-                    page: prevState.ordersQuery.page + 1,
                     previous,
                     next,
                     currentPage
@@ -93,18 +90,18 @@ class OrderList extends React.Component {
                     <div className="order-list__pagination">
                         {
                             this.state.ordersQuery.previous ?
-                                <button className="btn--pagination" onClick={this.handlePreviousPage}><ion-icon name="arrow-round-back"></ion-icon></button>
+                                <button id="btn-previous" className="btn--pagination" onClick={this.handlePreviousPage}><ion-icon name="arrow-round-back"></ion-icon></button>
                                 :
-                                <button className="btn--pagination--disabled"><ion-icon name="arrow-round-back"></ion-icon></button>
+                                <button id="btn-previous" className="btn--pagination--disabled"><ion-icon name="arrow-round-back"></ion-icon></button>
                         }
                         <div className="order-list__page-indicator">
                             {this.state.ordersQuery.currentPage}
                         </div>
                         {
                             this.state.ordersQuery.next ?
-                                <button className="btn--pagination" onClick={this.handleNextPage}><ion-icon name="arrow-round-forward"></ion-icon></button>
+                                <button id="btn-next" className="btn--pagination" onClick={this.handleNextPage}><ion-icon name="arrow-round-forward"></ion-icon></button>
                                 :
-                                <button className="btn--pagination--disabled"><ion-icon name="arrow-round-forward"></ion-icon></button>
+                                <button id="btn-next" className="btn--pagination--disabled"><ion-icon name="arrow-round-forward"></ion-icon></button>
                         }
                     </div>
                     <div className="order-list__items" id="scrollbar-style">

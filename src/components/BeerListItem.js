@@ -37,7 +37,7 @@ class BeerListItem extends React.Component {
             }).catch((e) => {
                 console.log(e);
             });
-            axios.get(`http://localhost:8000/api/ordersPrintable?page=$1&showPerPage=5`).then((response) => {
+            axios.get(`http://localhost:8000/api/ordersPrintable?page=1&showPerPage=5`).then((response) => {
                 this.props.setOrders(response.data.orders);
             }).catch((e) => {
                 console.log(e);

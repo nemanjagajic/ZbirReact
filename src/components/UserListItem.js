@@ -91,9 +91,10 @@ class UserListItem extends React.Component {
             count
         };
 
-        axios.post("http://localhost:8000/api/orders/addOrder", request).then((response) => {
+        axios.post("http://localhost:8000/api/orders/addOrder", request).then(() => {
             this.setState(() => ({ addOrderMessage: `Successfully ordered ${beerName} x ${count}` }));
-            axios.get(`http://localhost:8000/api/ordersPrintable?page=$1&showPerPage=5`).then((response) => {
+            const currentPage = document.querySelector('.order-list__page-indicator').innerHTML.trim();
+            axios.get(`http://localhost:8000/api/ordersPrintable?page=${currentPage}&showPerPage=5`).then((response) => {
                 this.props.setOrders(response.data.orders);
             }).catch((e) => {
                 console.log(e);
