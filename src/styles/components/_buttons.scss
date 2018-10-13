@@ -28,3 +28,20 @@
     background: $grey;
     margin: 30px 10px !important;
 }
+
+.btn--pagination {
+    @extend .btn;
+    width: 100px;
+    height: 30px;
+}
+
+.btn--pagination--disabled {
+    @extend .btn;
+    width: 100px;
+    height: 30px;
+    background: lighten($darker-grey, 5%);
+    cursor: not-allowed;
+    &:hover {
+        color: $light-grey;
+    }
+}
