@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setOrders } from '../actions/orders';
+import { setOrders, setMostOrdered } from '../actions/orders';
 import axios from 'axios';
 import OrderListItem from './OrderListItem';
 
@@ -14,7 +14,8 @@ class OrderList extends React.Component {
                 'currentPage': 1,
                 'previous': false,
                 'next': false
-            }
+            },
+            mostOrdered: {}
         }
 
         this.handleNextPage = this.handleNextPage.bind(this);
@@ -36,6 +37,12 @@ class OrderList extends React.Component {
                     currentPage
                 }
             }));
+        }).catch((e) => {
+            console.log(e);
+        });
+
+        axios.get('http://localhost:8000/api/getMostOrderedBeers/3').then((response) => {
+            this.props.setMostOrdered(response.data);
         }).catch((e) => {
             console.log(e);
         });
@@ -82,9 +89,29 @@ class OrderList extends React.Component {
     }
 
     render() {
+        const mostOrdered1 = Object.keys(this.props.mostOrdered)[0]
+        const mostOrdered2 = Object.keys(this.props.mostOrdered)[1];
+        const mostOrdered3 = Object.keys(this.props.mostOrdered)[2];
+
+        const mostOrdered1Percentage = this.props.mostOrdered[mostOrdered1] ? `${this.props.mostOrdered[mostOrdered1]}%` : '';
+        const mostOrdered2Percentage = this.props.mostOrdered[mostOrdered2] ? `${this.props.mostOrdered[mostOrdered2]}%` : '';
+        const mostOrdered3Percentage = this.props.mostOrdered[mostOrdered3] ? `${this.props.mostOrdered[mostOrdered3]}%` : '';
+
         return (
             <div className="order-list">
-                <div className="order-list__statistics"></div>
+                <div className="order-list__statistics">
+                    <h3>Most ordered beers</h3>
+                    <div className="order-list__statistics__container">
+                        <div className="order-list__statistics__container__first" style={{height: mostOrdered1Percentage}}>{mostOrdered1Percentage}</div>
+                        <div className="order-list__statistics__container__second" style={{height: mostOrdered2Percentage}}>{mostOrdered2Percentage}</div>
+                        <div className="order-list__statistics__container__third" style={{height: mostOrdered3Percentage}}>{mostOrdered3Percentage}</div>
+                    </div>
+                    <div className="order-list__statistics__label-container">
+                        <div className="order-list__statistics__label-container__first">{mostOrdered1}</div>
+                        <div className="order-list__statistics__label-container__second">{mostOrdered2}</div>
+                        <div className="order-list__statistics__label-container__third">{mostOrdered3}</div>
+                    </div>
+                </div>
                 <div className="order-list__recent">
                     <h3>Orders</h3>
                     <div className="order-list__pagination">
@@ -118,11 +145,13 @@ class OrderList extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    orders: state.orders
+    orders: state.orders,
+    mostOrdered: state.mostOrdered
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setOrders: (orders) => dispatch(setOrders(orders))
+    setOrders: (orders) => dispatch(setOrders(orders)),
+    setMostOrdered: (mostOrdered) => dispatch(setMostOrdered(mostOrdered))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderList);

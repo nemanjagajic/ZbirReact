@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setUsers } from '../actions/users';
 import axios from 'axios';
 import Select from 'react-select';
-import { setOrders } from '../actions/orders';
+import { setOrders, setMostOrdered } from '../actions/orders';
 
 class UserListItem extends React.Component {
 
@@ -94,8 +94,15 @@ class UserListItem extends React.Component {
         axios.post("http://localhost:8000/api/orders/addOrder", request).then(() => {
             this.setState(() => ({ addOrderMessage: `Successfully ordered ${beerName} x ${count}` }));
             const currentPage = document.querySelector('.order-list__page-indicator').innerHTML.trim();
+
             axios.get(`http://localhost:8000/api/ordersPrintable?page=${currentPage}&showPerPage=5`).then((response) => {
                 this.props.setOrders(response.data.orders);
+            }).catch((e) => {
+                console.log(e);
+            });
+
+            axios.get('http://localhost:8000/api/getMostOrderedBeers/3').then((response) => {
+                this.props.setMostOrdered(response.data);
             }).catch((e) => {
                 console.log(e);
             });
@@ -189,7 +196,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setOrders: (orders) => dispatch(setOrders(orders)),
-    setUsers: (users) => dispatch(setUsers(users))
+    setUsers: (users) => dispatch(setUsers(users)),
+    setMostOrdered: (mostOrdered) => dispatch(setMostOrdered(mostOrdered))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListItem);
