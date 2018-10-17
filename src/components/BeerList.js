@@ -23,7 +23,7 @@ class BeerList extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8000/api/beers`).then((response) => {
+        axios.get(`http://localhost:8000/api/beers`, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
             this.props.setBeers(response.data);
         }).catch((e) => {
             console.log(e);
@@ -65,9 +65,9 @@ class BeerList extends React.Component {
             price
         }
 
-        axios.post('http://localhost:8000/api/beers', beer).then(() => {
+        axios.post('http://localhost:8000/api/beers', beer, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then(() => {
             this.setState(() => ({ addBeerMessage: `Successfully added ${name}` }));
-            axios.get('http://localhost:8000/api/beers').then((response) => {
+            axios.get('http://localhost:8000/api/beers', { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
                 this.props.setBeers(response.data);
             }).catch((e) => {
                 console.log(e);
@@ -156,7 +156,8 @@ class BeerList extends React.Component {
 
 const mapStateToProps = (state) => ({
     beers: state.beers,
-    filters: state.filters
+    filters: state.filters,
+    token: state.token
 });
 
 const mapDispatchToProps = (dispatch) => ({

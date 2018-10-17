@@ -31,13 +31,13 @@ class BeerListItem extends React.Component {
     handleDeleteBeer = () => {
         const id = this.props.id;
 
-        axios.delete(`http://localhost:8000/api/beers/${id}`).then(() => {
-            axios.get('http://localhost:8000/api/beers').then((response) => {
+        axios.delete(`http://localhost:8000/api/beers/${id}`, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then(() => {
+            axios.get('http://localhost:8000/api/beers', { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
                 this.props.setBeers(response.data);
             }).catch((e) => {
                 console.log(e);
             });
-            axios.get(`http://localhost:8000/api/ordersPrintable?page=1&showPerPage=5`).then((response) => {
+            axios.get(`http://localhost:8000/api/ordersPrintable?page=1&showPerPage=5`, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
                 this.props.setOrders(response.data.orders);
             }).catch((e) => {
                 console.log(e);
@@ -51,8 +51,8 @@ class BeerListItem extends React.Component {
         const id = this.props.id;
         const request = { onStock: true };
 
-        axios.put(`http://localhost:8000/api/beers/${id}`, request).then(() => {
-            axios.get('http://localhost:8000/api/beers').then((response) => {
+        axios.put(`http://localhost:8000/api/beers/${id}`, request, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then(() => {
+            axios.get('http://localhost:8000/api/beers', { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
                 this.props.setBeers(response.data);
             }).catch((e) => {
                 console.log(e);
@@ -66,8 +66,8 @@ class BeerListItem extends React.Component {
         const id = this.props.id;
         const request = { onStock: false };
 
-        axios.put(`http://localhost:8000/api/beers/${id}`, request).then(() => {
-            axios.get('http://localhost:8000/api/beers').then((response) => {
+        axios.put(`http://localhost:8000/api/beers/${id}`, request, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then(() => {
+            axios.get('http://localhost:8000/api/beers', { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
                 this.props.setBeers(response.data);
             }).catch((e) => {
                 console.log(e);
@@ -114,9 +114,13 @@ class BeerListItem extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    token: state.token
+})
+
 const mapDispatchToProps = (dispatch) => ({
     setBeers: (beers) => dispatch(setBeers(beers)),
     setOrders: (orders) => dispatch(setOrders(orders))
 });
 
-export default connect(undefined, mapDispatchToProps)(BeerListItem);
+export default connect(mapStateToProps, mapDispatchToProps)(BeerListItem);

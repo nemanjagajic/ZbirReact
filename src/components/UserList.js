@@ -7,8 +7,6 @@ import Modal from 'react-modal';
 import { setUsers } from '../actions/users';
 import axios from 'axios';
 
-const uid = require('uuid/v1');
-
 class UserList extends React.Component {
 
     constructor() {
@@ -24,7 +22,7 @@ class UserList extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8000/api/customers`).then((response) => {
+        axios.get(`http://localhost:8000/api/customers`, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
             this.props.setUsers(response.data);
         }).catch((e) => {
             console.log(e);
@@ -57,9 +55,9 @@ class UserList extends React.Component {
             lastName
         };
 
-        axios.post('http://localhost:8000/api/customers', user).then((response) => {
+        axios.post('http://localhost:8000/api/customers', user, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
             this.setState(() => ({ addUserMessage: `Successfully added ${username}` }));
-            axios.get(`http://localhost:8000/api/customers`).then((response) => {
+            axios.get(`http://localhost:8000/api/customers`, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
                 this.props.setUsers(response.data);
             }).catch((e) => {
                 console.log(e);
@@ -116,7 +114,8 @@ class UserList extends React.Component {
 
 const mapStateToProps = (state) => ({
     users: state.users,
-    filters: state.filters
+    filters: state.filters,
+    token: state.token
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -55,13 +55,13 @@ class UserListItem extends React.Component {
     handleDeleteUser = () => {
         const id = this.props.id;
 
-        axios.delete(`http://localhost:8000/api/customers/${id}`).then(() => {
-            axios.get(`http://localhost:8000/api/customers`).then((response) => {
+        axios.delete(`http://localhost:8000/api/customers/${id}`, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then(() => {
+            axios.get(`http://localhost:8000/api/customers`, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
                 this.props.setUsers(response.data);
             }).catch((e) => {
                 console.log(e);
             });
-            axios.get(`http://localhost:8000/api/ordersPrintable?page=$1&showPerPage=5`).then((response) => {
+            axios.get(`http://localhost:8000/api/ordersPrintable?page=$1&showPerPage=5`, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
                 this.props.setOrders(response.data.orders);
             }).catch((e) => {
                 console.log(e);
@@ -91,17 +91,18 @@ class UserListItem extends React.Component {
             count
         };
 
-        axios.post("http://localhost:8000/api/orders/addOrder", request).then(() => {
+        axios.post("http://localhost:8000/api/orders/addOrder", request, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then(() => {
             this.setState(() => ({ addOrderMessage: `Successfully ordered ${beerName} x ${count}` }));
             const currentPage = document.querySelector('.order-list__page-indicator').innerHTML.trim();
 
-            axios.get(`http://localhost:8000/api/ordersPrintable?page=${currentPage}&showPerPage=5`).then((response) => {
+            axios.get(`http://localhost:8000/api/ordersPrintable?page=${currentPage}&showPerPage=5`,
+            { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
                 this.props.setOrders(response.data.orders);
             }).catch((e) => {
                 console.log(e);
             });
 
-            axios.get('http://localhost:8000/api/getMostOrderedBeers/3').then((response) => {
+            axios.get('http://localhost:8000/api/getMostOrderedBeers/3', { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
                 this.props.setMostOrdered(response.data);
             }).catch((e) => {
                 console.log(e);
@@ -191,7 +192,8 @@ class UserListItem extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    beers: state.beers
+    beers: state.beers,
+    token: state.token
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -23,7 +23,8 @@ class OrderList extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8000/api/ordersPrintable?page=${this.currentPage}&showPerPage=${this.state.ordersQuery.showPerPage}`).then((response) => {
+        axios.get(`http://localhost:8000/api/ordersPrintable?page=${this.currentPage}&showPerPage=${this.state.ordersQuery.showPerPage}`,
+        { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
             this.props.setOrders(response.data.orders);
             const previous = response.data.previous;
             const next = response.data.next;
@@ -41,7 +42,7 @@ class OrderList extends React.Component {
             console.log(e);
         });
 
-        axios.get('http://localhost:8000/api/getMostOrderedBeers/3').then((response) => {
+        axios.get('http://localhost:8000/api/getMostOrderedBeers/3', { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
             this.props.setMostOrdered(response.data);
         }).catch((e) => {
             console.log(e);
@@ -49,7 +50,7 @@ class OrderList extends React.Component {
     }
 
     handlePreviousPage() {
-        axios.get(this.state.ordersQuery.previous).then((response) => {
+        axios.get(this.state.ordersQuery.previous, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
             this.props.setOrders(response.data.orders);
             const previous = response.data.previous;
             const next = response.data.next;
@@ -69,7 +70,7 @@ class OrderList extends React.Component {
     }
 
     handleNextPage() {
-        axios.get(this.state.ordersQuery.next).then((response) => {
+        axios.get(this.state.ordersQuery.next, { headers: {"Authorization" : `Bearer ${this.props.token}`} }).then((response) => {
             this.props.setOrders(response.data.orders);
             const previous = response.data.previous;
             const next = response.data.next;
@@ -146,7 +147,8 @@ class OrderList extends React.Component {
 
 const mapStateToProps = (state) => ({
     orders: state.orders,
-    mostOrdered: state.mostOrdered
+    mostOrdered: state.mostOrdered,
+    token: state.token
 });
 
 const mapDispatchToProps = (dispatch) => ({
